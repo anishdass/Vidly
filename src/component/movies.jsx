@@ -14,7 +14,7 @@ class Movies extends Component {
   render() {
     const { length: size } = this.state.movies;
 
-    if (size == 0) return <p>There are no movies</p>;
+    if (size == 0) return <p>There are no movies in the database</p>;
 
     return (
       <>
