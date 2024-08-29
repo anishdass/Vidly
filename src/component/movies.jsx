@@ -7,18 +7,18 @@ class Movies extends Component {
   };
 
   handleDelete = (movie) => {
-    const movies = this.state.movies.filter((m) => m._id != movie._id);
+    const movies = this.state.movies.filter(m => m._id != movie._id);
     this.setState({ movies });
   };
 
   render() {
-    const { length: size } = this.state.movies;
+    const { length: count } = this.state.movies;
 
-    if (size == 0) return <p>There are no movies in the database</p>;
+    if (count == 0) return <p>There are no movies in the database</p>;
 
     return (
       <>
-        <p>Showing {size} movies in the database.</p>
+        <p>Showing {count} movies in the database.</p>
         <table className='table'>
           <thead>
             <tr>
