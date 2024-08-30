@@ -5,8 +5,8 @@ import Movies from "./movies";
 class App extends Component {
   render() {
     return (
-      <main className="container">
-        <Movies/>
+      <main className='container'>
+        <Movies />
       </main>
     );
   }
