@@ -55,6 +55,8 @@ class Movies extends Component {
       genres,
     } = this.state;
 
+    if (count == 0) return <p>There are no movies in the database</p>;
+
     const filteredMovies =
       currentGenre != "All Genres"
         ? allMovies.filter((m) => m.genre.name == currentGenre)
@@ -67,8 +69,6 @@ class Movies extends Component {
     );
 
     const paginatedMovies = Paginate(sorted, currentPage, pageSize);
-
-    if (sorted.count == 0) return <p>There are no movies in the database</p>;
 
     return (
       <div className='row'>

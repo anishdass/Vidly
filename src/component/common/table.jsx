@@ -4,7 +4,7 @@ import TableBody from "./tablebody";
 
 const Table = (props) => {
   const { columns, sortColumn, onSort, data } = props;
-  console.log(columns);
+
   return (
     <table className='table'>
       <TableHeader columns={columns} sortColumn={sortColumn} onSort={onSort} />
