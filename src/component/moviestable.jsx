@@ -4,10 +4,10 @@ import TableBody from "./common/tablebody";
 
 class MoviesTable extends Component {
   columns = [
-    { by: "title", label: "Title" },
-    { by: "genre.name", label: "Genre" },
-    { by: "numberInStock", label: "Stock" },
-    { by: "dailyRentalRate", label: "Rate" },
+    { path: "title", label: "Title" },
+    { path: "genre.name", label: "Genre" },
+    { path: "numberInStock", label: "Stock" },
+    { path: "dailyRentalRate", label: "Rate" },
     { key: "like" },
     { key: "delete" },
   ];
@@ -20,7 +20,7 @@ class MoviesTable extends Component {
           sortColumn={sortColumn}
           onSort={onSort}
         />
-        <TableBody movies={movies} onLike={onLike} onDelete={onDelete} />
+        <TableBody data={movies} onLike={onLike} onDelete={onDelete} />
       </table>
     );
   }

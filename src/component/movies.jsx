@@ -14,7 +14,7 @@ class Movies extends Component {
     pageSize: 4,
     currentPage: 1,
     currentGenre: "All Genres",
-    sortColumn: { by: "title", order: "asc" },
+    sortColumn: { path: "title", order: "asc" },
   };
 
   handleDelete = (movie) => {
@@ -60,11 +60,11 @@ class Movies extends Component {
         ? allMovies.filter((m) => m.genre.name == currentGenre)
         : allMovies;
 
-    console.log(sortColumn.by);
+    console.log(sortColumn.path);
     console.log(sortColumn.order);
     const sorted = _.orderBy(
       filteredMovies,
-      [sortColumn.by],
+      [sortColumn.path],
       [sortColumn.order]
     );
     console.log(sorted);

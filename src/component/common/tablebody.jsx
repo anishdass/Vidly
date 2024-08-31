@@ -5,21 +5,21 @@ class TableBody extends Component {
   render() {
     return (
       <tbody>
-        {this.props.movies.map((movie) => (
-          <tr key={movie._id}>
-            <td>{movie.title}</td>
-            <td>{movie.genre.name}</td>
-            <td>{movie.numberInStock}</td>
-            <td>{movie.dailyRentalRate}</td>
+        {this.props.data.map((item) => (
+          <tr key={item._id}>
+            <td>{item.title}</td>
+            <td>{item.genre.name}</td>
+            <td>{item.numberInStock}</td>
+            <td>{item.dailyRentalRate}</td>
             <td>
               <Like
-                liked={movie.liked}
-                onClick={() => this.props.onLike(movie)}
+                liked={item.liked}
+                onClick={() => this.props.onLike(item)}
               />
             </td>
             <td>
               <button
-                onClick={() => this.props.onDelete(movie)}
+                onClick={() => this.props.onDelete(item)}
                 className='btn btn-danger btn-sm'>
                 Delete
               </button>

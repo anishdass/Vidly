@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 
 class TableHeader extends Component {
-  Sort = (by) => {
+  Sort = (path) => {
     const sortColumn = { ...this.props.sortColumn };
-    if (sortColumn.by === by)
+    if (sortColumn.path === path)
       sortColumn.order = sortColumn.order === "asc" ? "desc" : "asc";
     else {
-      sortColumn.by = by;
+      sortColumn.path = path;
       sortColumn.order = "asc";
     }
     this.props.onSort(sortColumn);
@@ -17,8 +17,8 @@ class TableHeader extends Component {
         <tr>
           {this.props.columns.map((column) => (
             <th
-              key={column.by || column.key}
-              onClick={() => this.Sort(column.by)}>
+              key={column.path || column.key}
+              onClick={() => this.Sort(column.path)}>
               {column.label}
             </th>
           ))}
