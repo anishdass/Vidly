@@ -60,14 +60,11 @@ class Movies extends Component {
         ? allMovies.filter((m) => m.genre.name == currentGenre)
         : allMovies;
 
-    console.log(sortColumn.path);
-    console.log(sortColumn.order);
     const sorted = _.orderBy(
       filteredMovies,
       [sortColumn.path],
       [sortColumn.order]
     );
-    console.log(sorted);
 
     const paginatedMovies = Paginate(sorted, currentPage, pageSize);
 

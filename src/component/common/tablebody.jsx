@@ -1,29 +1,28 @@
 import React, { Component } from "react";
 import Like from "./like";
+import _ from "lodash";
 
 class TableBody extends Component {
+  renderCell = (item, column) => {
+    if (column.content) return column.content(item); //If content is present render the content piece
+    return _.get(item, column.path); // Or render the column text text
+  };
+
+  createKey = (item, column) => {
+    return item._id + (column.path || column.key);
+  };
+
   render() {
+    const { data, columns } = this.props;
     return (
       <tbody>
-        {this.props.data.map((item) => (
+        {data.map((item) => (
           <tr key={item._id}>
-            <td>{item.title}</td>
-            <td>{item.genre.name}</td>
-            <td>{item.numberInStock}</td>
-            <td>{item.dailyRentalRate}</td>
-            <td>
-              <Like
-                liked={item.liked}
-                onClick={() => this.props.onLike(item)}
-              />
-            </td>
-            <td>
-              <button
-                onClick={() => this.props.onDelete(item)}
-                className='btn btn-danger btn-sm'>
-                Delete
-              </button>
-            </td>
+            {columns.map((column) => (
+              <td key={this.createKey(item, column)}>
+                {this.renderCell(item, column)}
+              </td>
+            ))}
           </tr>
         ))}
       </tbody>
