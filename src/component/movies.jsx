@@ -43,24 +43,14 @@ class Movies extends Component {
     this.setState({ sortColumn });
   };
 
-  render() {
-    const { length: count } = this.state.movies;
-
-    const {
-      pageSize,
-      currentPage,
-      currentGenre,
-      movies: allMovies,
-      sortColumn,
-      genres,
-    } = this.state;
-
-    if (count == 0) return <p>There are no movies in the database</p>;
+  getPagedData = () => {
+    const { pageSize, currentPage, currentGenre, movies, sortColumn } =
+      this.state;
 
     const filteredMovies =
       currentGenre != "All Genres"
-        ? allMovies.filter((m) => m.genre.name == currentGenre)
-        : allMovies;
+        ? movies.filter((m) => m.genre.name == currentGenre)
+        : movies;
 
     const sorted = _.orderBy(
       filteredMovies,
@@ -69,6 +59,22 @@ class Movies extends Component {
     );
 
     const paginatedMovies = Paginate(sorted, currentPage, pageSize);
+
+    return {
+      paginatedMovies: paginatedMovies,
+      filteredMovies: filteredMovies,
+    };
+  };
+
+  render() {
+    const { length: count } = this.state.movies;
+
+    const { pageSize, currentPage, currentGenre, sortColumn, genres } =
+      this.state;
+
+    const { paginatedMovies, filteredMovies } = this.getPagedData();
+
+    if (count == 0) return <p>There are no movies in the database</p>;
 
     return (
       <div className='row'>
