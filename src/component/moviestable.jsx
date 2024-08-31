@@ -1,51 +1,26 @@
 import React, { Component } from "react";
-import Like from "./common/like";
+import TableHeader from "./common/tableheader";
+import TableBody from "./common/tablebody";
 
 class MoviesTable extends Component {
-  raiseSort = (by) => {
-    const sortColumn = { ...this.props.sortColumn };
-    if (sortColumn.by === by)
-      sortColumn.order = sortColumn.order === "asc" ? "desc" : "asc";
-    else {
-      sortColumn.by = by;
-      sortColumn.order = "asc";
-    }
-    this.props.onSort(sortColumn);
-  };
-
+  columns = [
+    { by: "title", label: "Title" },
+    { by: "genre.name", label: "Genre" },
+    { by: "numberInStock", label: "Stock" },
+    { by: "dailyRentalRate", label: "Rate" },
+    { key: "like" },
+    { key: "delete" },
+  ];
   render() {
-    const { movies, onLike, onDelete,  } = this.props;
+    const { movies, onLike, onDelete, onSort, sortColumn } = this.props;
     return (
       <table className='table'>
-        <thead>
-          <tr>
-            <th onClick={() => this.raiseSort("title")}>Title</th>
-            <th onClick={() => this.raiseSort("genre")}>Genre</th>
-            <th onClick={() => this.raiseSort("numberInStock")}>Stock</th>
-            <th onClick={() => this.raiseSort("dailyRentalRate")}>Rate</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          {movies.map((movie) => (
-            <tr key={movie._id}>
-              <td>{movie.title}</td>
-              <td>{movie.genre.name}</td>
-              <td>{movie.numberInStock}</td>
-              <td>{movie.dailyRentalRate}</td>
-              <td>
-                <Like liked={movie.liked} onClick={() => onLike(movie)} />
-              </td>
-              <td>
-                <button
-                  onClick={() => onDelete(movie)}
-                  className='btn btn-danger btn-sm'>
-                  Delete
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
+        <TableHeader
+          columns={this.columns}
+          sortColumn={sortColumn}
+          onSort={onSort}
+        />
+        <TableBody movies={movies} onLike={onLike} onDelete={onDelete} />
       </table>
     );
   }

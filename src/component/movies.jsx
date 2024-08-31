@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { getMovies } from "../services/fakeMovieService";
 import { getGenres } from "../services/fakeGenreService";
-import Like from "./common/like";
 import Pages from "./common/pages";
 import Paginate from "../utils/paginate";
 import FilterBox from "./common/filterbox";
@@ -61,11 +60,14 @@ class Movies extends Component {
         ? allMovies.filter((m) => m.genre.name == currentGenre)
         : allMovies;
 
+    console.log(sortColumn.by);
+    console.log(sortColumn.order);
     const sorted = _.orderBy(
       filteredMovies,
       [sortColumn.by],
       [sortColumn.order]
     );
+    console.log(sorted);
 
     const paginatedMovies = Paginate(sorted, currentPage, pageSize);
 
