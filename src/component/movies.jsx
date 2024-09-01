@@ -22,9 +22,12 @@ class Movies extends Component {
     this.setState({ movies });
   };
 
-  handleLike = (movie) => {
-    const movies = this.state.movies.map((m) =>
-      m._id === movie._id ? { ...m, liked: !m.liked } : m
+  handleLike = (likedMovie) => {
+    console.log(likedMovie);
+    const movies = this.state.movies.map((movie) =>
+      movie._id === likedMovie._id
+        ? { ...likedMovie, liked: !movie.liked }
+        : movie
     );
     this.setState({ movies });
   };
