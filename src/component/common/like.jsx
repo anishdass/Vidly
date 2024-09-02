@@ -1,5 +1,6 @@
 import React from "react";
 
+//Parent: MoviesTable
 const Like = (data) => {
   let classes = "fa fa-heart";
   if (!data.liked) classes += "-o";

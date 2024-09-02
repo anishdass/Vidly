@@ -23,7 +23,6 @@ class Movies extends Component {
   };
 
   handleLike = (likedMovie) => {
-    console.log(likedMovie);
     const movies = this.state.movies.map((movie) =>
       movie._id === likedMovie._id
         ? { ...likedMovie, liked: !movie.liked }
