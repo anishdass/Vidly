@@ -1,13 +1,10 @@
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClapperboard } from "@fortawesome/free-solid-svg-icons";
 
 const NavBar = () => {
   return (
     <nav className='navbar navbar-expand-lg bg-body-tertiary'>
       <div className='container-fluid'>
-        <FontAwesomeIcon icon={faClapperboard} />
         <Link className='navbar-brand' to='/'>
           The Film App
         </Link>
@@ -36,6 +33,11 @@ const NavBar = () => {
             <li className='nav-item'>
               <NavLink className='nav-link' to='/rentals'>
                 Rentals
+              </NavLink>
+            </li>
+            <li className='nav-item'>
+              <NavLink className='nav-link' to='/login'>
+                Login
               </NavLink>
             </li>
           </ul>
