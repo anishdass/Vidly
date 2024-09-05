@@ -25,7 +25,6 @@ class LoginForm extends Form {
         <form onSubmit={this.handleSubmit} className='login-form'>
           {this.renderInput("username", "Username")}
           {this.renderInput("password", "Password")}
-          {this.renderFormCheck("checkbox", "Remember Me")}
           {this.renderButton("Login")}
         </form>
       </React.Fragment>

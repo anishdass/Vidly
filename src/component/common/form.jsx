@@ -60,7 +60,7 @@ class Form extends Component {
   }
 
   renderInput(name, label) {
-    const { data, errors, show } = this.state;
+    const { data, errors } = this.state;
     return (
       <Input
         name={name}
@@ -70,17 +70,6 @@ class Form extends Component {
         className='form-control'
         error={errors[name]}
       />
-    );
-  }
-
-  renderFormCheck(type, label) {
-    return (
-      <div className='mb-3 form-check'>
-        <input type={type} className='form-check-input' id={label} />
-        <label className='form-check-label' for='exampleCheck1'>
-          {label}
-        </label>
-      </div>
     );
   }
 }
