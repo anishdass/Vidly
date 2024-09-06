@@ -21,7 +21,10 @@ const NavBar = () => {
         <div className='collapse navbar-collapse' id='navbarNav'>
           <ul className='navbar-nav'>
             <li className='nav-item'>
-              <NavLink className='nav-link' aria-current='page' to='/movies'>
+              <NavLink
+                className='nav-link active'
+                aria-current='page'
+                to='/movies'>
                 Movies
               </NavLink>
             </li>
@@ -38,11 +41,6 @@ const NavBar = () => {
             <li className='nav-item'>
               <NavLink className='nav-link' to='/login'>
                 Login
-              </NavLink>
-            </li>
-            <li className='nav-item'>
-              <NavLink className='nav-link' to='/register'>
-                Register
               </NavLink>
             </li>
           </ul>

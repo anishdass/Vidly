@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Joi from "joi-browser";
 import Form from "./common/form";
+import { Link } from "react-router-dom";
 
 class LoginForm extends Form {
   state = {
@@ -26,6 +27,11 @@ class LoginForm extends Form {
           {this.renderInput("username", "Username")}
           {this.renderInput("password", "Password")}
           {this.renderButton("Login")}
+          <button type='register' className='btn btn-primary button-spacing'>
+            <Link to='/register' className='no-underline'>
+              Register
+            </Link>
+          </button>
         </form>
       </React.Fragment>
     );

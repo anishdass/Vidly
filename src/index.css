@@ -21,9 +21,19 @@ code {
   margin-bottom: 30px;
 }
 
-.login-form {
+.form {
   width: 500px;
   padding: 10px;
   margin: 20px auto;
   text-align: center;
+}
+
+.button-spacing {
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+.no-underline {
+  text-decoration: none;
+  color: inherit;
 }

@@ -10,13 +10,13 @@ const Input = ({
   error,
 }) => {
   return (
-    <div class='mb-3'>
+    <div className='mb-3'>
       <input
         autoFocus={autoFocus ? true : undefined}
         value={value}
         onChange={onChange}
         type={name}
-        class={className}
+        className={className}
         id={name}
         name={name}
         placeholder={placeholder}

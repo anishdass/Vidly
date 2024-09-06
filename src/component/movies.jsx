@@ -6,6 +6,7 @@ import Paginate from "../utils/paginate";
 import FilterBox from "./common/filterbox";
 import MoviesTable from "./moviestable";
 import _ from "lodash";
+import { Link } from "react-router-dom";
 
 class Movies extends Component {
   state = {
@@ -15,6 +16,10 @@ class Movies extends Component {
     currentPage: 1,
     currentGenre: "All Genres",
     sortColumn: { path: "title", order: "asc" },
+  };
+
+  handleAddMovies = () => {
+    console.log(this.state.movies);
   };
 
   handleDelete = (movie) => {
@@ -80,6 +85,15 @@ class Movies extends Component {
           />
         </div>
         <div className='col'>
+          <button
+            type='add'
+            className='btn btn-primary button-spacing'
+            // onClick={this.handleAddMovies}
+          >
+            <Link to='/movies/new' className='no-underline'>
+              Add new movie
+            </Link>
+          </button>
           <p>Showing {paginatedMovies.length} movies in the database.</p>
           <MoviesTable
             movies={paginatedMovies}

@@ -48,11 +48,12 @@ class Form extends Component {
     data[input.name] = input.value;
     this.setState({ data, errors });
   };
+
   renderButton(label) {
     return (
       <button
         type='submit'
-        className='btn btn-primary'
+        className='btn btn-primary button-spacing'
         disabled={this.validate()}>
         {label}
       </button>
