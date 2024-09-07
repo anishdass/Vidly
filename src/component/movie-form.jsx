@@ -1,7 +1,8 @@
 import React from "react";
 import Form from "./common/form";
 import Joi from "joi-browser";
-import { Link } from "react-router-dom";
+import { getMovie, saveMovie } from "../services/fakeMovieService";
+import { getGenres } from "../services/fakeGenreService";
 
 class MovieForm extends Form {
   state = {
@@ -13,16 +14,27 @@ class MovieForm extends Form {
   schema = {
     _id: Joi.string(),
     title: Joi.string().required().label("Title"),
-    genreId: Joi.string()
+    genreId: Joi.string().required().label("Genre"),
+    numberInStock: Joi.number()
+      .min(0)
+      .max(100)
       .required()
-      .valid("Comedy", "Action", "Thriller")
-      .label("Genre"),
-    numberInStock: Joi.number().max(10).required().label("Stock"),
-    dailyRentalRate: Joi.number().max(10).required().label("Rate"),
+      .label("Number In Stock"),
+    dailyRentalRate: Joi.number()
+      .min(0)
+      .max(10)
+      .required()
+      .label("Daily Rental Rate"),
   };
 
+  componentDidMount() {
+    let genres = getGenres().filter((genre) => genre.name != "All Genres");
+    this.setState({ genres });
+  }
+
   doSubmit = () => {
-    console.log(this.state);
+    saveMovie(this.state.data);
+    this.props.history.push("/movies");
   };
 
   render() {
@@ -30,9 +42,9 @@ class MovieForm extends Form {
       <div>
         <form onSubmit={this.handleSubmit} className='form'>
           {this.renderInput("title", "Title")}
-          {this.renderInput("genre", "Genre")}
-          {this.renderInput("stock", "Stock")}
-          {this.renderInput("rate", "Rate")}
+          {this.renderSelect("genreId", "Genre", this.state.genres)}
+          {this.renderInput("numberInStock", "Stock")}
+          {this.renderInput("dailyRentalRate", "Rate")}
           {this.renderButton("Save")}
         </form>
       </div>
@@ -41,3 +53,20 @@ class MovieForm extends Form {
 }
 
 export default MovieForm;
+
+//   const movieId = this.props.match.params.id;
+//   if (movieId === "new") return;
+
+//   const movie = getMovie(movieId);
+
+//   this.setState({ data: this.mapToViewModel(movie) });
+// }
+
+// mapToViewModel(movie) {
+//   return {
+//     _id: movie._id,
+//     title: movie.title,
+//     genreId: movie.genre._id,
+//     numberInStock: movie.numberInStock,
+//     dailyRentalRate: movie.dailyRentalRate,
+//   };

@@ -84,13 +84,7 @@ export function saveMovie(movie) {
   movieInDb.dailyRentalRate = movie.dailyRentalRate;
 
   if (!movieInDb._id) {
-    movieInDb._id = randomstring({
-      length: 15,
-      numeric: true,
-      letters: true,
-      special: false,
-      exclude: ["a", "b", "1"],
-    });
+    movieInDb._id = Date.now().toString();
     movies.push(movieInDb);
   }
 

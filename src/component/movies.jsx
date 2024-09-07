@@ -7,6 +7,7 @@ import FilterBox from "./common/filterbox";
 import MoviesTable from "./moviestable";
 import _ from "lodash";
 import { Link } from "react-router-dom";
+import { saveMovie } from "../services/fakeMovieService";
 
 class Movies extends Component {
   state = {
@@ -85,15 +86,11 @@ class Movies extends Component {
           />
         </div>
         <div className='col'>
-          <button
-            type='add'
-            className='btn btn-primary button-spacing'
-            // onClick={this.handleAddMovies}
-          >
-            <Link to='/movies/new' className='no-underline'>
-              Add new movie
-            </Link>
-          </button>
+          <Link
+            to='/movies/new'
+            className='btn btn-primary button-spacing no-underline'>
+            Add new movie
+          </Link>
           <p>Showing {paginatedMovies.length} movies in the database.</p>
           <MoviesTable
             movies={paginatedMovies}
