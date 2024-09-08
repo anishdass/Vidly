@@ -22,15 +22,13 @@ class RegisterForm extends Form {
   render() {
     return (
       <div>
-        <form onSubmit={this.handleSubmit} className='login-form'>
-          {this.renderInput("name", "Name")}
+        <form onSubmit={this.handleSubmit} className='form'>
+          {this.renderInput("name", "Name", "autofocus")}
           {this.renderInput("username", "Username")}
           {this.renderInput("password", "Password")}
-          <button type='register' className='btn btn-primary button-spacing'>
-            <Link to='/login' className='no-underline'>
-              Back
-            </Link>
-          </button>
+          <Link to='/login' className='btn btn-primary button-spacing'>
+            Back
+          </Link>
           {this.renderButton("Register")}
         </form>
       </div>

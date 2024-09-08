@@ -7,7 +7,6 @@ import FilterBox from "./common/filterbox";
 import MoviesTable from "./moviestable";
 import _ from "lodash";
 import { Link } from "react-router-dom";
-import { saveMovie } from "../services/fakeMovieService";
 
 class Movies extends Component {
   state = {
@@ -17,10 +16,15 @@ class Movies extends Component {
     currentPage: 1,
     currentGenre: "All Genres",
     sortColumn: { path: "title", order: "asc" },
+    searchString: "",
   };
 
-  handleAddMovies = () => {
-    console.log(this.state.movies);
+  handleSearch = (query) => {
+    this.setState({
+      searchString: query.target.value,
+      currentGenre: "All Genres",
+      currentPage: 1,
+    });
   };
 
   handleDelete = (movie) => {
@@ -49,14 +53,24 @@ class Movies extends Component {
     this.setState({ sortColumn });
   };
 
-  getPagedData = () => {
-    const { pageSize, currentPage, currentGenre, movies, sortColumn } =
-      this.state;
+  getFilteredData = () => {
+    const {
+      pageSize,
+      currentPage,
+      currentGenre,
+      movies,
+      sortColumn,
+      searchString,
+    } = this.state;
+
+    const searchedMovies = movies.filter((movie) =>
+      movie.title.toLowerCase().includes(searchString.toLowerCase())
+    );
 
     const filteredMovies =
       currentGenre !== "All Genres"
-        ? movies.filter((m) => m.genre.name === currentGenre)
-        : movies;
+        ? searchedMovies.filter((m) => m.genre.name === currentGenre)
+        : searchedMovies;
 
     const sortedMovies = _.orderBy(
       filteredMovies,
@@ -72,7 +86,7 @@ class Movies extends Component {
     const { movies, pageSize, currentPage, currentGenre, sortColumn, genres } =
       this.state;
 
-    const { paginatedMovies, totalCount } = this.getPagedData();
+    const { paginatedMovies, totalCount } = this.getFilteredData();
 
     if (movies.length === 0) return <p>There are no movies in the database.</p>;
 
@@ -85,13 +99,29 @@ class Movies extends Component {
             onGenreChange={this.handleGenreChange}
           />
         </div>
+
         <div className='col'>
           <Link
             to='/movies/new'
             className='btn btn-primary button-spacing no-underline'>
             Add new movie
           </Link>
+
           <p>Showing {paginatedMovies.length} movies in the database.</p>
+
+          <form
+            className='d-flex'
+            role='search'
+            onSubmit={(e) => e.preventDefault()}>
+            <input
+              className='form-control me-2 rounded-pill'
+              type='search'
+              placeholder='Search a Film'
+              aria-label='Search'
+              onChange={this.handleSearch}
+            />
+          </form>
+
           <MoviesTable
             movies={paginatedMovies}
             sortColumn={sortColumn}
@@ -99,6 +129,7 @@ class Movies extends Component {
             onDelete={this.handleDelete}
             onSort={this.handleSort}
           />
+
           <Pages
             itemsCount={totalCount}
             pageSize={pageSize}

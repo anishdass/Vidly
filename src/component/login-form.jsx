@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Joi from "joi-browser";
 import Form from "./common/form";
 import { Link } from "react-router-dom";
+import Input from "./common/input";
 
 class LoginForm extends Form {
   state = {
@@ -23,15 +24,16 @@ class LoginForm extends Form {
 
     return (
       <React.Fragment>
-        <form onSubmit={this.handleSubmit} className='login-form'>
-          {this.renderInput("username", "Username")}
+        <form onSubmit={this.handleSubmit} className='form'>
+          {this.renderInput("username", "Username", "autoFocus")}
           {this.renderInput("password", "Password")}
           {this.renderButton("Login")}
-          <button type='register' className='btn btn-primary button-spacing'>
-            <Link to='/register' className='no-underline'>
-              Register
-            </Link>
-          </button>
+
+          <Link
+            to='/register'
+            className='btn btn-primary button-spacing no-underline'>
+            Register
+          </Link>
         </form>
       </React.Fragment>
     );

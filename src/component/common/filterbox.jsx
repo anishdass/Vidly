@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 
 const FilterBox = (props) => {
   const { genres, currentGenre, onGenreChange } = props;
@@ -10,8 +10,8 @@ const FilterBox = (props) => {
           onClick={() => onGenreChange(genre.name)}
           className={
             genre.name == currentGenre
-              ? "list-group-item active"
-              : "list-group-item"
+              ? "list-group-item clickable active"
+              : "list-group-item clickable"
           }>
           {genre.name}
         </li>
