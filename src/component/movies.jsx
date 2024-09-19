@@ -1,17 +1,18 @@
 import React, { Component } from "react";
-import { getMovies } from "../services/fakeMovieService";
-import { getGenres } from "../services/fakeGenreService";
+import { getMovies } from "../services/movieService";
+import { getGenres } from "../services/genreService";
 import Pages from "./common/pages";
 import Paginate from "../utils/paginate";
 import FilterBox from "./common/filterbox";
 import MoviesTable from "./moviestable";
 import _ from "lodash";
 import { Link } from "react-router-dom";
+import { log } from "joi-browser";
 
 class Movies extends Component {
   state = {
-    movies: getMovies(),
-    genres: getGenres(),
+    movies: [],
+    genres: [],
     pageSize: 4,
     currentPage: 1,
     currentGenre: "All Genres",
@@ -19,25 +20,35 @@ class Movies extends Component {
     searchString: "",
   };
 
-  handleSearch = (query) => {
+  async componentDidMount() {
+    const { data } = await getGenres();
+    const genres = [{ _id: "", name: "All Genres" }, ...data];
+    const { data: movies } = await getMovies();
+
     this.setState({
-      searchString: query.target.value,
+      movies,
+      genres,
+    });
+  }
+
+  handleSearch = ({ target: { value } }) => {
+    this.setState({
+      searchString: value,
       currentGenre: "All Genres",
       currentPage: 1,
     });
   };
 
   handleDelete = (movie) => {
-    const movies = this.state.movies.filter((m) => m._id !== movie._id);
-    this.setState({ movies });
+    this.setState({
+      movies: this.state.movies.filter((m) => m._id !== movie._id),
+    });
   };
 
-  handleLike = (likedMovie) => {
-    const movies = this.state.movies.map((movie) =>
-      movie._id === likedMovie._id
-        ? { ...likedMovie, liked: !movie.liked }
-        : movie
-    );
+  handleLike = (movie) => {
+    const movies = [...this.state.movies];
+    const index = movies.indexOf(movie);
+    movies[index] = { ...movie, liked: !movie.liked };
     this.setState({ movies });
   };
 
@@ -55,40 +66,43 @@ class Movies extends Component {
 
   getFilteredData = () => {
     const {
+      movies,
       pageSize,
       currentPage,
       currentGenre,
-      movies,
       sortColumn,
       searchString,
     } = this.state;
 
-    const searchedMovies = movies.filter((movie) =>
-      movie.title.toLowerCase().includes(searchString.toLowerCase())
-    );
+    let filteredMovies = movies;
 
-    const filteredMovies =
-      currentGenre !== "All Genres"
-        ? searchedMovies.filter((m) => m.genre.name === currentGenre)
-        : searchedMovies;
+    if (searchString)
+      filteredMovies = movies.filter((m) =>
+        m.title.toLowerCase().includes(searchString.toLowerCase())
+      );
+
+    if (currentGenre !== "All Genres")
+      filteredMovies = filteredMovies.filter(
+        (m) => m.genre.name === currentGenre
+      );
 
     const sortedMovies = _.orderBy(
       filteredMovies,
       [sortColumn.path],
       [sortColumn.order]
     );
+
     const paginatedMovies = Paginate(sortedMovies, currentPage, pageSize);
 
     return { paginatedMovies, totalCount: filteredMovies.length };
   };
 
   render() {
-    const { movies, pageSize, currentPage, currentGenre, sortColumn, genres } =
+    const { pageSize, currentPage, sortColumn, currentGenre, genres } =
       this.state;
-
     const { paginatedMovies, totalCount } = this.getFilteredData();
 
-    if (movies.length === 0) return <p>There are no movies in the database.</p>;
+    if (totalCount === 0) return <p>There are no movies in the database.</p>;
 
     return (
       <div className='row'>
@@ -99,25 +113,20 @@ class Movies extends Component {
             onGenreChange={this.handleGenreChange}
           />
         </div>
-
         <div className='col'>
           <Link
             to='/movies/new'
             className='btn btn-primary button-spacing no-underline'>
             Add new movie
           </Link>
+          <p>Showing {totalCount} movies in the database.</p>
 
-          <p>Showing {paginatedMovies.length} movies in the database.</p>
-
-          <form
-            className='d-flex'
-            role='search'
-            onSubmit={(e) => e.preventDefault()}>
+          <form className='d-flex mb-3' onSubmit={(e) => e.preventDefault()}>
             <input
               className='form-control me-2 rounded-pill'
               type='search'
               placeholder='Search a Film'
-              aria-label='Search'
+              value={this.state.searchString}
               onChange={this.handleSearch}
             />
           </form>

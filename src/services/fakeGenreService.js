@@ -6,5 +6,6 @@ export const genres = [
 ];
 
 export function getGenres() {
+  console.log(genres.filter((g) => g));
   return genres.filter((g) => g);
 }

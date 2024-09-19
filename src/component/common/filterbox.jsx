@@ -2,6 +2,7 @@ import React from "react";
 
 const FilterBox = (props) => {
   const { genres, currentGenre, onGenreChange } = props;
+
   return (
     <ul className='list-group'>
       {genres.map((genre) => (
