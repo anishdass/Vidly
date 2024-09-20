@@ -7,7 +7,6 @@ import FilterBox from "./common/filterbox";
 import MoviesTable from "./moviestable";
 import _ from "lodash";
 import { Link } from "react-router-dom";
-import { log } from "joi-browser";
 
 class Movies extends Component {
   state = {
@@ -102,7 +101,17 @@ class Movies extends Component {
       this.state;
     const { paginatedMovies, totalCount } = this.getFilteredData();
 
-    if (totalCount === 0) return <p>There are no movies in the database.</p>;
+    if (totalCount === 0)
+      return (
+        <div>
+          <p>There are no movies in the database.</p>
+          <button
+            className='btn btn-primary button-spacing no-underline'
+            onClick={() => (window.location.href = "/movies")}>
+            Back
+          </button>
+        </div>
+      );
 
     return (
       <div className='row'>
@@ -117,7 +126,7 @@ class Movies extends Component {
           <Link
             to='/movies/new'
             className='btn btn-primary button-spacing no-underline'>
-            Add new movie
+            New movie
           </Link>
           <p>Showing {totalCount} movies in the database.</p>
 

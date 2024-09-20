@@ -34,7 +34,6 @@ class Form extends Component {
     this.setState({ errors: errors || {} });
 
     if (errors) return;
-    console.log("Submitted");
 
     this.doSubmit();
   };
@@ -66,7 +65,7 @@ class Form extends Component {
     return (
       <Select
         name={name}
-        vaue={data[name]}
+        value={data[name]}
         options={options}
         onChange={this.handleChange}
         error={errors[name]}
