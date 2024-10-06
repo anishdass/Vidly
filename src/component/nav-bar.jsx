@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
 
-const NavBar = () => {
+const NavBar = ({ user }) => {
   return (
     <nav className='navbar navbar-expand-lg bg-body-tertiary'>
       <div className='container-fluid'>
@@ -38,11 +38,27 @@ const NavBar = () => {
                 Rentals
               </NavLink>
             </li>
-            <li className='nav-item'>
-              <NavLink className='nav-link' to='/login'>
-                Login
-              </NavLink>
-            </li>
+            {!user && (
+              <li className='nav-item'>
+                <NavLink className='nav-link' to='/login'>
+                  Login/ Register
+                </NavLink>
+              </li>
+            )}
+            {user && (
+              <>
+                <li className='nav-item'>
+                  <NavLink className='nav-link' to='/profile'>
+                    {user.name}
+                  </NavLink>
+                </li>
+                <li className='nav-item'>
+                  <NavLink className='nav-link' to='/logout'>
+                    Logout
+                  </NavLink>
+                </li>
+              </>
+            )}
           </ul>
         </div>
       </div>

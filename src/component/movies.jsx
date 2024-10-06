@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import { getMovies } from "../services/movieService";
+import { deleteMovie, getMovies } from "../services/movieService";
 import { getGenres } from "../services/genreService";
+
 import Pages from "./common/pages";
 import Paginate from "../utils/paginate";
 import FilterBox from "./common/filterbox";
@@ -38,9 +39,11 @@ class Movies extends Component {
     });
   };
 
-  handleDelete = (movie) => {
+  handleDelete = async (movie) => {
+    await deleteMovie(movie._id);
+    const { data: movies } = await getMovies();
     this.setState({
-      movies: this.state.movies.filter((m) => m._id !== movie._id),
+      movies,
     });
   };
 
@@ -100,6 +103,7 @@ class Movies extends Component {
     const { pageSize, currentPage, sortColumn, currentGenre, genres } =
       this.state;
     const { paginatedMovies, totalCount } = this.getFilteredData();
+    const { user } = this.props;
 
     if (totalCount === 0)
       return (
@@ -123,11 +127,14 @@ class Movies extends Component {
           />
         </div>
         <div className='col'>
-          <Link
-            to='/movies/new'
-            className='btn btn-primary button-spacing no-underline'>
-            New movie
-          </Link>
+          {user && (
+            <Link
+              to='/movies/new'
+              className='btn btn-primary button-spacing no-underline'>
+              New movie
+            </Link>
+          )}
+
           <p>Showing {totalCount} movies in the database.</p>
 
           <form className='d-flex mb-3' onSubmit={(e) => e.preventDefault()}>
